@@ -1,0 +1,31 @@
+.avatar-container{
+
+    width:360px;
+    height:360px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:50%;
+
+    background:radial-gradient(circle,
+        rgba(255,255,255,.05),
+        rgba(255,255,255,.01));
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(30px);
+
+    transition:.4s;
+}
+
+.avatar-container:hover{
+
+    transform:scale(1.01);
+
+    box-shadow:0 0 60px rgba(255,255,255,.08);
+
+}

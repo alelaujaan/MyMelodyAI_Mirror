@@ -1,0 +1,35 @@
+@import "@fontsource/inter/100.css";
+@import "@fontsource/inter/200.css";
+@import "@fontsource/inter/300.css";
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+
+:root{
+
+    --mirror-bg:#050505;
+
+    --text-primary:#ffffff;
+
+    --text-secondary:#9ca3af;
+
+    --accent:#f9a8d4;
+
+    --glass:rgba(255,255,255,.05);
+
+    --glass-border:rgba(255,255,255,.08);
+
+}
+
+body{
+
+    margin:0;
+
+    background:var(--mirror-bg);
+
+    color:white;
+
+    font-family:"Inter",sans-serif;
+
+    overflow:hidden;
+
+}

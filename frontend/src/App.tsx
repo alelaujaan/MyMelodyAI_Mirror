@@ -1,9 +1,5 @@
+import MirrorPage from "./pages/MirrorPage";
+
 export default function App() {
-    return (
-        <div className="w-screen h-screen bg-black text-white flex items-center justify-center">
-            <h1 className="text-6xl font-light">
-                MyMelodyAI Mirror
-            </h1>
-        </div>
-    );
+    return <MirrorPage />;
 }
