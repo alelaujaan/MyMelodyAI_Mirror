@@ -4,10 +4,11 @@ import CalendarWidget from "../widgets/Calendar/CalendarWidget";
 import ShoppingWidget from "../widgets/Shopping/ShoppingWidget";
 import MirrorLayout from "../layouts/MirrorLayout";
 import ClockWidget from "../widgets/Clock/ClockWidget";
-import AvatarWidget from "../widgets/Avatar/AvatarWidget";
+//import AvatarWidget from "../widgets/Avatar/AvatarWidget";
 import GreetingWidget from "../widgets/Greeting/GreetingWidget";
 import { MirrorState } from "../store/mirrorTypes";
 import { useMirrorStore } from "../store/mirrorStore";
+import AvatarScene from "../components/avatar3d/AvatarScene";
 
 export default function MirrorPage() {
 
@@ -76,7 +77,9 @@ export default function MirrorPage() {
                 {/* Centro */}
                 <div className="absolute inset-0 flex flex-col items-center justify-center">
 
-                    <AvatarWidget />
+                    <div className="h-[600px] w-[500px]">
+                        <AvatarScene />
+                    </div>
 
                     <div className="mt-8">
                         <GreetingWidget />
