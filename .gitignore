@@ -46,4 +46,11 @@ htmlcov/
 # Face recognition data (si contienen datos reales)
 data/faces/
 
-.msi
+# Installers
+*.msi
+*.exe
+*.dmg
+*.pkg
+*.deb
+*.rpm
+*.AppImage
