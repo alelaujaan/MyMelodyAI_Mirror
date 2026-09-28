@@ -4,13 +4,54 @@ import type { AvatarRig } from "./AvatarRig";
 import { AvatarBehaviour } from "./AvatarBehaviour";
 
 const deg = THREE.MathUtils.degToRad;
+function getPosture(mode: "idle" | "listening" | "thinking" | "talking") {
+
+    switch (mode) {
+
+        case "listening":
+
+            return {
+                neckPitch: deg(-3),
+                headPitch: deg(-2),
+                breathe: 1.1,
+            };
+
+        case "thinking":
+
+            return {
+                neckPitch: deg(10),
+                headPitch: deg(8),
+                breathe: 0.6,
+            };
+
+        case "talking":
+
+            return {
+                neckPitch: deg(-6),
+                headPitch: deg(-4),
+                breathe: 1.0,
+            };
+
+        default:
+
+            return {
+                neckPitch: deg(-8),
+                headPitch: deg(-5),
+                breathe: 1.0,
+            };
+
+    }
+
+}
 
 export function idle(
     rig: AvatarRig,
     time: number,
     blend: number,
-    behaviour: AvatarBehaviour
+    behaviour: AvatarBehaviour,
+    mode: "idle" | "listening" | "thinking" | "talking"
 ) {
+    const posture = getPosture(mode);
 
     // -------------------------
     // Respiración
@@ -20,6 +61,7 @@ export function idle(
         Math.sin(time * 1.5)
         * 0.015
         * behaviour.breathe
+        * posture.breathe
         * blend;
 
     // -------------------------
@@ -50,7 +92,8 @@ export function idle(
 
         const targetPitch =
             deg(Math.sin(time * 0.5) * 2)
-            + behaviour.lookPitch;
+            + behaviour.lookPitch
+            + posture.neckPitch;
 
         const targetYaw =
             behaviour.lookYaw;
@@ -75,16 +118,41 @@ export function idle(
 
     if (rig.head) {
 
+        let headPitch =
+            deg(Math.sin(time * 0.7) * 1)
+            + posture.headPitch;
+
+        let headRoll =
+            deg(Math.sin(time * 0.35) * 1);
+
+        let headYaw = 0;
+
+        if (mode === "talking") {
+
+            headPitch += deg(Math.sin(time * 3.2) * 2);
+
+            headYaw = deg(Math.sin(time * 2.1) * 3);
+
+            headRoll += deg(Math.sin(time * 2.7) * 1);
+
+        }
+
         rig.head.rotation.x = THREE.MathUtils.lerp(
             rig.head.rotation.x,
-            deg(Math.sin(time * 0.7) * 1),
-            0.05
+            headPitch,
+            0.08
+        );
+
+        rig.head.rotation.y = THREE.MathUtils.lerp(
+            rig.head.rotation.y,
+            headYaw,
+            0.08
         );
 
         rig.head.rotation.z = THREE.MathUtils.lerp(
             rig.head.rotation.z,
-            deg(Math.sin(time * 0.35) * 1),
-            0.05
+            headRoll,
+            0.08
         );
 
     }

@@ -17,7 +17,7 @@ export class AvatarAnimator {
         elapsed: number
     ) {
 
-        // Actualizamos el comportamiento
+        // Actualizamos el comportamiento base
         this.behaviour.update(delta, elapsed);
 
         // Cambio de estado
@@ -42,7 +42,8 @@ export class AvatarAnimator {
                     rig,
                     elapsed,
                     this.blend,
-                    this.behaviour
+                    this.behaviour,
+                    "idle"
                 );
 
                 break;
@@ -53,7 +54,8 @@ export class AvatarAnimator {
                     rig,
                     elapsed,
                     this.blend,
-                    this.behaviour
+                    this.behaviour,
+                    "listening"
                 );
 
                 break;
@@ -64,7 +66,8 @@ export class AvatarAnimator {
                     rig,
                     elapsed,
                     this.blend,
-                    this.behaviour
+                    this.behaviour,
+                    "thinking"
                 );
 
                 break;
@@ -75,7 +78,8 @@ export class AvatarAnimator {
                     rig,
                     elapsed,
                     this.blend,
-                    this.behaviour
+                    this.behaviour,
+                    "talking"
                 );
 
                 break;
@@ -86,7 +90,8 @@ export class AvatarAnimator {
                     rig,
                     elapsed,
                     this.blend,
-                    this.behaviour
+                    this.behaviour,
+                    "idle"
                 );
 
         }

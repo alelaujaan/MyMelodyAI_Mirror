@@ -1,0 +1,728 @@
+
+.mobile-chat {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    background:
+        radial-gradient(
+            circle at 50% -10%,
+            rgba(109, 91, 255, 0.28),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at 100% 60%,
+            rgba(0, 180, 255, 0.12),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 0% 80%,
+            rgba(174, 72, 255, 0.10),
+            transparent 35%
+        ),
+        #08090d;
+
+    color: #ffffff;
+    font-family:
+        Inter,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+}
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.mobile-chat__header {
+    position: relative;
+    z-index: 2;
+
+    padding: 28px 22px 22px;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    background: rgba(10, 11, 17, 0.68);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+
+    box-shadow:
+        0 10px 40px rgba(0, 0, 0, 0.25);
+}
+
+.mobile-chat__header::before {
+    content: "";
+
+    position: absolute;
+    top: 18px;
+    left: 22px;
+
+    width: 9px;
+    height: 9px;
+
+    border-radius: 50%;
+
+    background: #8c7cff;
+
+    box-shadow:
+        0 0 12px rgba(140, 124, 255, 0.9),
+        0 0 28px rgba(140, 124, 255, 0.45);
+}
+
+.mobile-chat__header h1 {
+    margin: 0;
+
+    padding-top: 8px;
+
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.8px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff 20%,
+            #bdb5ff 60%,
+            #8fdcff
+        );
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.mobile-chat__header span {
+    display: block;
+
+    margin-top: 5px;
+
+    color: rgba(255, 255, 255, 0.48);
+
+    font-size: 13px;
+    letter-spacing: 0.2px;
+}
+
+/* =========================================================
+   CONVERSATION
+   ========================================================= */
+
+.mobile-chat__conversation {
+    position: relative;
+
+    flex: 1;
+
+    padding: 24px 18px 160px;
+
+    overflow-y: auto;
+
+    scrollbar-width: none;
+}
+
+.mobile-chat__conversation::-webkit-scrollbar {
+    display: none;
+}
+
+/* Luna message */
+
+.message {
+    position: relative;
+
+    max-width: 88%;
+
+    padding: 16px 17px;
+
+    margin-bottom: 14px;
+
+    border-radius: 20px;
+
+    line-height: 1.55;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.075),
+            rgba(255, 255, 255, 0.025)
+        );
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.28);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    animation: lunaMessageIn 0.35s ease-out;
+}
+
+.message::before {
+    content: "";
+
+    position: absolute;
+
+    left: -1px;
+    top: 18px;
+
+    width: 3px;
+    height: 28px;
+
+    border-radius: 4px;
+
+    background: #8c7cff;
+
+    box-shadow:
+        0 0 14px rgba(140, 124, 255, 0.7);
+}
+
+.message p {
+    margin: 5px 0 0;
+
+    color: rgba(255, 255, 255, 0.88);
+
+    font-size: 15px;
+}
+
+.message__author {
+    font-size: 11px;
+
+    color: #aaa1ff;
+
+    font-weight: 600;
+
+    letter-spacing: 0.5px;
+
+    text-transform: uppercase;
+}
+
+.message--error {
+    max-width: 90%;
+
+    border-color: rgba(255, 90, 100, 0.18);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(120, 30, 40, 0.35),
+            rgba(70, 20, 25, 0.22)
+        );
+
+    color: #ffb9bd;
+}
+
+.message--error::before {
+    background: #ff626c;
+
+    box-shadow:
+        0 0 14px rgba(255, 98, 108, 0.6);
+}
+
+/* =========================================================
+   BOTTOM INPUT AREA
+   ========================================================= */
+
+.mobile-chat__input {
+    position: fixed;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    z-index: 20;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 10px;
+
+    padding: 12px 14px calc(14px + env(safe-area-inset-bottom));
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(8, 9, 13, 0.68),
+            rgba(8, 9, 13, 0.92)
+        );
+
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+
+    box-shadow:
+        0 -18px 50px rgba(0, 0, 0, 0.38);
+}
+
+/* =========================================================
+   ACTION BUTTONS
+   ========================================================= */
+
+.mobile-chat__actions {
+    display: flex;
+
+    gap: 9px;
+}
+
+.mobile-chat__actions button {
+    width: 42px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border-radius: 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.10),
+            rgba(255, 255, 255, 0.035)
+        );
+
+    color: rgba(255, 255, 255, 0.9);
+
+    font-size: 21px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 25px rgba(0, 0, 0, 0.25);
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    transition:
+        transform 0.18s ease,
+        border-color 0.18s ease,
+        background 0.18s ease;
+}
+
+.mobile-chat__actions button:hover {
+    transform: translateY(-2px);
+
+    border-color: rgba(157, 143, 255, 0.5);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(140, 124, 255, 0.22),
+            rgba(255, 255, 255, 0.05)
+        );
+}
+
+.mobile-chat__actions button:active {
+    transform: scale(0.94);
+}
+
+/* =========================================================
+   MESSAGE INPUT
+   ========================================================= */
+
+.mobile-chat__message-input {
+    display: flex;
+
+    gap: 9px;
+
+    width: 100%;
+}
+
+.mobile-chat__input input {
+    flex: 1;
+
+    min-width: 0;
+
+    height: 52px;
+
+    padding: 0 17px;
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: 17px;
+
+    outline: none;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255, 255, 255, 0.085),
+            rgba(255, 255, 255, 0.035)
+        );
+
+    color: white;
+
+    font-size: 16px;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 8px 25px rgba(0, 0, 0, 0.18);
+
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.mobile-chat__input input:focus {
+    border-color: rgba(140, 124, 255, 0.55);
+
+    box-shadow:
+        0 0 0 3px rgba(140, 124, 255, 0.08),
+        0 8px 30px rgba(0, 0, 0, 0.25);
+}
+
+.mobile-chat__input input::placeholder {
+    color: rgba(255, 255, 255, 0.32);
+}
+
+/* =========================================================
+   SEND BUTTON
+   ========================================================= */
+
+.mobile-chat__message-input > button {
+    width: 52px;
+    height: 52px;
+
+    flex-shrink: 0;
+
+    padding: 0;
+
+    border: 1px solid rgba(255, 255, 255, 0.16);
+
+    border-radius: 17px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #dcd8ff
+        );
+
+    color: #0a0b10;
+
+    font-size: 0;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 28px rgba(120, 105, 255, 0.28);
+
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease;
+}
+
+.mobile-chat__message-input > button::after {
+    content: "➜";
+
+    font-size: 21px;
+
+    font-weight: 700;
+}
+
+.mobile-chat__message-input > button:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 34px rgba(120, 105, 255, 0.42);
+}
+
+.mobile-chat__message-input > button:active {
+    transform: scale(0.94);
+}
+
+.mobile-chat__message-input > button:disabled {
+    opacity: 0.35;
+
+    cursor: default;
+
+    transform: none;
+
+    box-shadow: none;
+}
+
+/* =========================================================
+   CALENDAR PANELS
+   ========================================================= */
+
+.calendar-panel {
+    position: fixed;
+
+    left: 14px;
+    right: 14px;
+    bottom: 142px;
+
+    z-index: 30;
+
+    max-height: 65vh;
+
+    overflow-y: auto;
+
+    padding: 18px;
+
+    border: 1px solid rgba(255, 255, 255, 0.11);
+
+    border-radius: 24px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(27, 29, 40, 0.92),
+            rgba(12, 13, 19, 0.96)
+        );
+
+    box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.55),
+        0 0 45px rgba(105, 88, 255, 0.10);
+
+    backdrop-filter: blur(30px);
+    -webkit-backdrop-filter: blur(30px);
+
+    animation: panelIn 0.25s ease-out;
+}
+
+.calendar-panel__header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    margin-bottom: 16px;
+}
+
+.calendar-panel__header h2 {
+    margin: 0;
+
+    font-size: 20px;
+
+    letter-spacing: -0.3px;
+}
+
+.calendar-panel__header button {
+    width: 34px;
+    height: 34px;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    border-radius: 11px;
+
+    background: rgba(255, 255, 255, 0.06);
+
+    color: rgba(255, 255, 255, 0.75);
+
+    cursor: pointer;
+}
+
+/* Calendar form */
+
+.calendar-panel input,
+.calendar-panel textarea {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    margin-bottom: 10px;
+
+    padding: 13px 14px;
+
+    border: 1px solid rgba(255, 255, 255, 0.09);
+
+    border-radius: 13px;
+
+    outline: none;
+
+    background: rgba(255, 255, 255, 0.055);
+
+    color: white;
+
+    font-family: inherit;
+
+    font-size: 15px;
+}
+
+.calendar-panel textarea {
+    min-height: 80px;
+
+    resize: vertical;
+}
+
+.calendar-panel input::placeholder,
+.calendar-panel textarea::placeholder {
+    color: rgba(255, 255, 255, 0.30);
+}
+
+.calendar-panel input:focus,
+.calendar-panel textarea:focus {
+    border-color: rgba(140, 124, 255, 0.48);
+
+    box-shadow:
+        0 0 0 3px rgba(140, 124, 255, 0.07);
+}
+
+.calendar-panel > button {
+    width: 100%;
+
+    height: 48px;
+
+    margin-top: 4px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ffffff,
+            #d8d3ff
+        );
+
+    color: #0b0c10;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+}
+
+.calendar-panel__error {
+    margin: 8px 0;
+
+    color: #ff9fa7;
+
+    font-size: 13px;
+}
+
+/* =========================================================
+   CALENDAR EVENTS
+   ========================================================= */
+
+.calendar-event {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    padding: 14px;
+
+    margin-bottom: 9px;
+
+    border: 1px solid rgba(255, 255, 255, 0.07);
+
+    border-radius: 16px;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255, 255, 255, 0.065),
+            rgba(255, 255, 255, 0.025)
+        );
+}
+
+.calendar-event > div {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 3px;
+
+    min-width: 0;
+}
+
+.calendar-event strong {
+    font-size: 15px;
+
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.calendar-event span {
+    color: rgba(255, 255, 255, 0.45);
+
+    font-size: 12px;
+}
+
+.calendar-event > button {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(255, 100, 110, 0.15);
+
+    border-radius: 11px;
+
+    background: rgba(255, 80, 90, 0.07);
+
+    cursor: pointer;
+
+    transition:
+        background 0.18s ease,
+        transform 0.18s ease;
+}
+
+.calendar-event > button:hover {
+    background: rgba(255, 80, 90, 0.16);
+
+    transform: scale(1.05);
+}
+
+/* =========================================================
+   ANIMATIONS
+   ========================================================= */
+
+@keyframes lunaMessageIn {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes panelIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================================================
+   SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 380px) {
+    .mobile-chat__header {
+        padding-left: 18px;
+        padding-right: 18px;
+    }
+
+    .mobile-chat__conversation {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+
+    .calendar-panel {
+        left: 10px;
+        right: 10px;
+    }
+}
+

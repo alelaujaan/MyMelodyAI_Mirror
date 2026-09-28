@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { Environment } from "@react-three/drei";
 
 import Avatar3D from "./Avatar3D";
 
@@ -9,20 +9,21 @@ export default function AvatarScene() {
 
         <Canvas
             camera={{
-                position: [0, 0, 4],
-                fov: 40,
+                position: [0, 1.5, 3],
+                fov: 35,
             }}
         >
 
-            <ambientLight intensity={2} />
+            <ambientLight intensity={1.5} />
 
             <directionalLight
-                position={[2, 4, 2]}
-                intensity={3}
+                position={[5, 5, 5]}
+                intensity={2}
             />
 
-            <Avatar3D />
+            <Environment preset="city" />
 
+            <Avatar3D />
 
         </Canvas>
 
