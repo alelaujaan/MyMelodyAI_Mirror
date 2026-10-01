@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import GlassCard from "../../components/ui/GlassCard/GlassCard";
 import SectionTitle from "../../components/ui/SectionTitle/SectionTitle";
+import { API_URL } from "../../config";
 
 interface WeatherData {
     location: string;
@@ -11,26 +12,35 @@ interface WeatherData {
 }
 
 export default function WeatherWidget() {
-    const [weather, setWeather] = useState<WeatherData | null>(null);
+    const [weather, setWeather] =
+        useState<WeatherData | null>(null);
+
     const [error, setError] = useState(false);
 
     useEffect(() => {
         const fetchWeather = async () => {
             try {
                 const response = await fetch(
-                    "http://localhost:8000/api/v1/weather"
+                    `${API_URL}/weather`
                 );
 
                 if (!response.ok) {
-                    throw new Error("Error fetching weather");
+                    throw new Error(
+                        "Error fetching weather"
+                    );
                 }
 
-                const data: WeatherData = await response.json();
+                const data: WeatherData =
+                    await response.json();
 
                 setWeather(data);
                 setError(false);
             } catch (error) {
-                console.error("Weather error:", error);
+                console.error(
+                    "Weather error:",
+                    error
+                );
+
                 setError(true);
             }
         };
@@ -90,7 +100,9 @@ export default function WeatherWidget() {
                     </div>
 
                     <div className="text-6xl">
-                        {getWeatherIcon(weather.weather_code)}
+                        {getWeatherIcon(
+                            weather.weather_code
+                        )}
                     </div>
                 </div>
             )}

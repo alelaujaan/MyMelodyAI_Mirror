@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import GlassCard from "../../components/ui/GlassCard/GlassCard";
 import SectionTitle from "../../components/ui/SectionTitle/SectionTitle";
+import { API_URL } from "../../config";
 
 type NewsItem = {
     title: string;
@@ -17,7 +18,7 @@ export default function NewsWidget() {
         const loadNews = async () => {
             try {
                 const response = await fetch(
-                    "http://localhost:8000/api/v1/news"
+                    `${API_URL}/news`
                 );
 
                 if (!response.ok) {
@@ -27,7 +28,10 @@ export default function NewsWidget() {
                 const data = await response.json();
                 setNews(data);
             } catch (error) {
-                console.error("🔴 Error loading news:", error);
+                console.error(
+                    "🔴 Error loading news:",
+                    error
+                );
             } finally {
                 setLoading(false);
             }
@@ -35,7 +39,10 @@ export default function NewsWidget() {
 
         loadNews();
 
-        const interval = setInterval(loadNews, 10 * 60 * 1000);
+        const interval = setInterval(
+            loadNews,
+            10 * 60 * 1000
+        );
 
         return () => clearInterval(interval);
     }, []);

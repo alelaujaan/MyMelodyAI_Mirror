@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import GlassCard from "../../components/ui/GlassCard/GlassCard";
 import SectionTitle from "../../components/ui/SectionTitle/SectionTitle";
+import { API_URL } from "../../config";
 
 type CalendarEvent = {
     id: number;
@@ -27,18 +28,22 @@ export default function CalendarWidget() {
             setError(false);
 
             const response = await fetch(
-                "http://localhost:8000/api/v1/calendar"
+                `${API_URL}/calendar`
             );
 
             if (!response.ok) {
                 throw new Error("Error al obtener eventos");
             }
 
-            const data: CalendarEvent[] = await response.json();
+            const data: CalendarEvent[] =
+                await response.json();
 
             setEvents(data);
         } catch (err) {
-            console.error("Error cargando calendario:", err);
+            console.error(
+                "Error cargando calendario:",
+                err
+            );
             setError(true);
         } finally {
             if (showLoading) {
@@ -60,7 +65,9 @@ export default function CalendarWidget() {
     }, []);
 
     const formatDate = (date: string) => {
-        const parsedDate = new Date(`${date}T00:00:00`);
+        const parsedDate = new Date(
+            `${date}T00:00:00`
+        );
 
         return parsedDate.toLocaleDateString("es-ES", {
             weekday: "short",
@@ -85,36 +92,41 @@ export default function CalendarWidget() {
                 </p>
             )}
 
-            {!loading && !error && events.length === 0 && (
-                <p className="text-white/60">
-                    No tienes eventos próximos.
-                </p>
-            )}
+            {!loading &&
+                !error &&
+                events.length === 0 && (
+                    <p className="text-white/60">
+                        No tienes eventos próximos.
+                    </p>
+                )}
 
-            {!loading && !error && events.length > 0 && (
-                <div className="space-y-3">
-                    {events.slice(0, 3).map((event) => (
-                        <div
-                            key={event.id}
-                            className="rounded-xl bg-white/5 px-4 py-3"
-                        >
-                            <p className="text-xl">
-                                {event.title}
-                            </p>
-
-                            <p className="text-white/60">
-                                {formatDate(event.date)} · {event.time}
-                            </p>
-
-                            {event.location && (
-                                <p className="text-sm text-white/40">
-                                    {event.location}
+            {!loading &&
+                !error &&
+                events.length > 0 && (
+                    <div className="space-y-3">
+                        {events.slice(0, 3).map((event) => (
+                            <div
+                                key={event.id}
+                                className="rounded-xl bg-white/5 px-4 py-3"
+                            >
+                                <p className="text-xl">
+                                    {event.title}
                                 </p>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            )}
+
+                                <p className="text-white/60">
+                                    {formatDate(event.date)} ·{" "}
+                                    {event.time}
+                                </p>
+
+                                {event.location && (
+                                    <p className="text-sm text-white/40">
+                                        {event.location}
+                                    </p>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                )}
         </GlassCard>
     );
 }

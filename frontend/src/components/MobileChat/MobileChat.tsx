@@ -1,6 +1,8 @@
 
 import { useEffect, useState } from "react";
 
+import { API_URL } from "../../config";
+
 type ChatResponse = {
     message: string;
     emotion: string;
@@ -17,8 +19,6 @@ type CalendarEvent = {
     created_at?: string | null;
 };
 
-const API_URL = "http://localhost:8000/api/v1";
-
 export default function MobileChat() {
     const [message, setMessage] = useState<string>("");
     const [response, setResponse] =
@@ -27,34 +27,24 @@ export default function MobileChat() {
         useState<boolean>(false);
     const [error, setError] =
         useState<string>("");
-
     const [showAddEvent, setShowAddEvent] =
         useState<boolean>(false);
-
     const [showCalendar, setShowCalendar] =
         useState<boolean>(false);
-
     const [events, setEvents] =
         useState<CalendarEvent[]>([]);
-
     const [calendarLoading, setCalendarLoading] =
         useState<boolean>(false);
-
     const [eventTitle, setEventTitle] =
         useState<string>("");
-
     const [eventDate, setEventDate] =
         useState<string>("");
-
     const [eventTime, setEventTime] =
         useState<string>("");
-
     const [eventLocation, setEventLocation] =
         useState<string>("");
-
     const [eventNotes, setEventNotes] =
         useState<string>("");
-
     const [eventError, setEventError] =
         useState<string>("");
 
@@ -509,4 +499,3 @@ export default function MobileChat() {
         </main>
     );
 }
-
