@@ -1,4 +1,3 @@
-
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import logging
 
@@ -12,24 +11,27 @@ from app.memory import conversation_database
 from app.websocket import manager
 
 
-
+# Logging
 setup_logging()
 
 logger = logging.getLogger("mirror")
-
 logger.info("Starting MyMelodyAI Mirror...")
 
 
+# FastAPI
 app = FastAPI(
     title=APP_NAME,
     version=APP_VERSION,
 )
 
 
+# CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
+        "http://100.74.14.96:5173",
         "http://localhost:5173",
+        "http://127.0.0.1:5173",
     ],
     allow_credentials=True,
     allow_methods=["*"],
@@ -37,13 +39,14 @@ app.add_middleware(
 )
 
 
+# API routes
 app.include_router(api_router)
 
 
+# WebSocket
 @app.websocket("/ws/mirror")
 async def mirror_websocket(websocket: WebSocket):
     await manager.connect(websocket)
-
     logger.info("Mirror WebSocket connected")
 
     try:

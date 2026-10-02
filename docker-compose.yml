@@ -1,5 +1,77 @@
 services:
 
+  # ============================================================
+  # OLLAMA
+  # ============================================================
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: mymelodyai-ollama
+
+    ports:
+      - "11434:11434"
+
+    volumes:
+      - ollama_data:/root/.ollama
+
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+
+
+  # ============================================================
+  # OLLAMA MODEL INITIALIZER
+  # ============================================================
+
+  ollama-init:
+    image: ollama/ollama:latest
+    container_name: mymelodyai-ollama-init
+
+    depends_on:
+      ollama:
+        condition: service_healthy
+
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+
+    entrypoint: ["/bin/sh", "-c"]
+
+    command:
+      - |
+        set -e
+
+        MODEL="qwen3:4b-instruct"
+
+        echo "========================================"
+        echo " MyMelodyAI - Ollama"
+        echo " Modelo: $MODEL"
+        echo "========================================"
+
+        if ollama list | grep -q "^$MODEL"; then
+          echo "Modelo $MODEL ya está instalado."
+        else
+          echo "Modelo $MODEL no está instalado."
+          echo "Descargando $MODEL..."
+
+          ollama pull "$MODEL"
+
+          echo "Modelo $MODEL instalado correctamente."
+        fi
+
+        echo ""
+        echo "Modelos disponibles:"
+        ollama list
+
+
+  # ============================================================
+  # BACKEND
+  # ============================================================
+
   backend:
     build:
       context: ./backend
@@ -12,12 +84,17 @@ services:
 
     environment:
       OLLAMA_HOST: http://ollama:11434
+      OLLAMA_MODEL: qwen3:4b-instruct
 
     volumes:
       - ./backend:/app
 
     depends_on:
-      - ollama
+      ollama:
+        condition: service_healthy
+
+      ollama-init:
+        condition: service_completed_successfully
 
     command:
       - uvicorn
@@ -28,6 +105,12 @@ services:
       - "8000"
       - --reload
 
+    restart: unless-stopped
+
+
+  # ============================================================
+  # FRONTEND
+  # ============================================================
 
   frontend:
     build:
@@ -44,7 +127,8 @@ services:
       - /app/node_modules
 
     depends_on:
-      - backend
+      backend:
+        condition: service_started
 
     command:
       - npm
@@ -54,19 +138,12 @@ services:
       - --host
       - 0.0.0.0
 
+    restart: unless-stopped
 
-  ollama:
-    image: ollama/ollama:latest
 
-    container_name: mymelodyai-ollama
-
-    ports:
-      - "11434:11434"
-
-    volumes:
-      - ollama_data:/root/.ollama
-
+# ============================================================
+# VOLUMES
+# ============================================================
 
 volumes:
-
   ollama_data:
