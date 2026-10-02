@@ -1,3 +1,4 @@
+
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 import logging
 
@@ -15,6 +16,7 @@ from app.websocket import manager
 setup_logging()
 
 logger = logging.getLogger("mirror")
+
 logger.info("Starting MyMelodyAI Mirror...")
 
 
@@ -26,14 +28,11 @@ app = FastAPI(
 
 
 # CORS
+# Permitimos peticiones desde cualquier origen.
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://100.74.14.96:5173",
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
-    allow_credentials=True,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
